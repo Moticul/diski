@@ -8,10 +8,6 @@ license = "MIT"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
-sysinfo = "0.35.1" 
 comfy-table = "7.1.4"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "1.0" 
-
-which = "5.0"
+serde_json = "1.0.140"
+serde = { version = "1.0.219", features = ["derive"] }

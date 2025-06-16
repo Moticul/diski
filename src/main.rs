@@ -1,22 +1,35 @@
-use comfy_table::Table;
-use sysinfo::Disks;
+use comfy_table::{Table, presets::UTF8_FULL};
+use serde::{Deserialize, Serialize};
+use serde_json::{Result, Value, json};
+use std::process::Command;
+
+#[derive(Deserialize)]
+struct BlockDevice {
+    name: String,
+    #[serde(rename = "type")]
+    disk_type: String,
+    size: String,
+    fstype: Option<String>,
+}
+
+#[derive(Deserialize)]
+struct LsblkOutput {
+    blockdevices: Vec<BlockDevice>,
+}
 
 fn main() {
-    let disks = Disks::new_with_refreshed_list();
-    for disk in &disks {
-        println!("{:?}", disk.name());
-        println!("{:?}", disk.mount_point());
-    }
-
     let mut table = Table::new();
-    table
-        .set_header(vec!["Disk Name", "Disk Kind", "Filsystem"])
-        .add_row(vec!["", "This is another text", "This is the third text"])
-        .add_row(vec![
-            "This is another text",
-            "Now\nadd some \nmulti line stuff",
-            "This is awesome",
-        ]);
+    table.load_preset(UTF8_FULL);
+    table.set_header(vec!["Device", "Filesystem", "Size"]);
+
+    let output = Command::new("lsblk")
+        .arg("-J")
+        .arg("-o")
+        .arg("NAME,TYPE,SIZE,FSTYPE")
+        .output()
+        .expect("Failed to execute command");
+
+    println!("{:?}", output);
 
     println!("{table}");
 }
