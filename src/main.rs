@@ -29,7 +29,25 @@ fn main() {
         .output()
         .expect("Failed to execute command");
 
-    println!("{:?}", output);
+    let stdout = String::from_utf8_lossy(&output.stdout);
 
-    println!("{table}");
+    let json = serde_json::from_str::<LsblkOutput>(&stdout);
+
+    let devices = match json {
+        Ok(parsed) => parsed.blockdevices,
+        Err(e) => {
+            eprintln!("Failed to parse JSON: {}", e);
+            return;
+        }
+    };
+
+    for item in devices {
+        if item.disk_type == "disk" {
+            table.add_row(vec![
+                format!("/dev/{}", item.name),
+                item.fstype.unwrap_or_else(|| "Unknown".to_string()),
+                item.size,
+            ]);
+        }
+    }
 }
