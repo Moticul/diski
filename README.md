@@ -1,6 +1,7 @@
 Diski is a CLI tool that displays disk info of a system's storage devices 
 in a nice table. 
 
+```
 ┌──────────────┬────────────┬────────┐
 │ Device       ┆ Filesystem ┆ Size   │
 ╞══════════════╪════════════╪════════╡
@@ -8,3 +9,4 @@ in a nice table.
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┤
 │ /dev/nvme0n1 ┆ Unknown    ┆ 248.8G │
 └──────────────┴────────────┴────────┘
+```
