@@ -1,6 +1,5 @@
 use comfy_table::{Table, presets::UTF8_FULL};
-use serde::{Deserialize, Serialize};
-use serde_json::{Result, Value, json};
+use serde::Deserialize;
 use std::process::Command;
 
 #[derive(Deserialize)]
@@ -50,4 +49,6 @@ fn main() {
             ]);
         }
     }
+
+    println!("{table}");
 }
