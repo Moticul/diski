@@ -1,20 +1,7 @@
 use comfy_table::{Table, presets::UTF8_FULL};
-use serde::Deserialize;
 use std::process::Command;
-
-#[derive(Deserialize)]
-struct BlockDevice {
-    name: String,
-    #[serde(rename = "type")]
-    disk_type: String,
-    size: String,
-    fstype: Option<String>,
-}
-
-#[derive(Deserialize)]
-struct LsblkOutput {
-    blockdevices: Vec<BlockDevice>,
-}
+mod lsblk_parser;
+use lsblk_parser::LsblkOutput;
 
 fn main() {
     let mut table = Table::new();
