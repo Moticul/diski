@@ -5,19 +5,20 @@ mod args;
 use args::get_args;
 mod lsblk_parser;
 use lsblk_parser::LsblkOutput;
+mod columns;
+use columns::get_columns;
 
 fn main() {
     let args = get_args();
 
-    let mut headers = vec!["Device"];
-    if args.filesystem {
-        headers.push("Filesystem");
-    }
-    if args.size {
-        headers.push("Size");
-    }
-
+    let all_columns = get_columns();
+    let active_columns: Vec<_> = all_columns
+        .into_iter()
+        .filter(|col| (col.enabled)(&args))
+        .collect();
     let mut table = Table::new();
+    let mut headers = vec!["Device"];
+    headers.extend(active_columns.iter().map(|col| col.header));
     table.load_preset(UTF8_FULL);
     table.set_header(headers);
 
@@ -44,18 +45,8 @@ fn main() {
         if item.disk_type != "disk" {
             continue;
         }
-        let mut row = Vec::new();
-
-        row.push(format!("/dev/{}", item.name));
-
-        if args.filesystem {
-            row.push(item.fstype.clone().unwrap_or_else(|| "Unknown".to_string()));
-        }
-
-        if args.size {
-            row.push(item.size.clone());
-        }
-
+        let mut row = vec![format!("/dev/{}", item.name)];
+        row.extend(active_columns.iter().map(|col| (col.extract)(&item)));
         table.add_row(row);
     }
 
