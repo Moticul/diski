@@ -10,14 +10,15 @@ use columns::get_columns;
 
 fn main() {
     let args = get_args();
-
     let all_columns = get_columns();
     let active_columns: Vec<_> = all_columns
         .into_iter()
         .filter(|col| (col.enabled)(&args))
         .collect();
+
     let mut table = Table::new();
     let mut headers = vec!["Device"];
+
     headers.extend(active_columns.iter().map(|col| col.header));
     table.load_preset(UTF8_FULL);
     table.set_header(headers);
