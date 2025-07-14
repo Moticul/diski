@@ -13,7 +13,7 @@ pub fn get_columns() -> Vec<Column> {
         Column {
             header: "Size",
             enabled: |args: &Args| args.size,
-            extract: |dev: &BlockDevice| dev.size.clone(),
+            extract: |dev: &BlockDevice| dev.size.clone().unwrap_or("Unknown".to_string()),
         },
     ]
 }

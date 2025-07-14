@@ -5,7 +5,7 @@ pub struct BlockDevice {
     pub name: String,
     #[serde(rename = "type")]
     pub disk_type: String,
-    pub size: String,
+    pub size: Option<String>,
     pub fstype: Option<String>,
 }
 

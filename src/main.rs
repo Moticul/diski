@@ -23,15 +23,15 @@ fn main() {
     table.load_preset(UTF8_FULL);
     table.set_header(headers);
 
+    let columns = args.lsblk_args().join(",");
     let output = Command::new("lsblk")
         .arg("-J")
         .arg("-o")
-        .arg("NAME,TYPE,SIZE,FSTYPE")
+        .arg(columns)
         .output()
         .expect("Failed to execute command");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-
     let json = serde_json::from_str::<LsblkOutput>(&stdout);
 
     let devices = match json {
