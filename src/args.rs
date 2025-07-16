@@ -2,13 +2,13 @@ use clap::Parser;
 
 #[derive(Parser, Debug)]
 pub struct Args {
-    #[arg(short = 'f', long = "filesystem")]
+    #[arg(short = 'f', long = "filesystem", help = "display filesystem")]
     pub filesystem: bool,
 
-    #[arg(short = 's', long = "size")]
+    #[arg(short = 's', long = "size", help = "display size of disk")]
     pub size: bool,
 
-    #[arg(short = 't', long = "type")]
+    #[arg(short = 't', long = "type", help = "display the type of disk")]
     pub disk_type: bool,
 }
 
