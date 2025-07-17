@@ -14,11 +14,7 @@ pub struct Args {
 
 impl Args {
     pub fn lsblk_args(&self) -> Vec<&'static str> {
-        let fields = vec![
-            (&self.filesystem, "FSTYPE"),
-            (&self.size, "SIZE"),
-            (&self.disk_type, "TYPE"),
-        ];
+        let fields = vec![(&self.filesystem, "FSTYPE"), (&self.size, "SIZE")];
 
         let mut lsblk_args = vec!["NAME", "TYPE"];
         for (flag, column) in fields {

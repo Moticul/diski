@@ -15,6 +15,11 @@ pub fn get_columns() -> Vec<Column> {
             enabled: |args: &Args| args.size,
             extract: |dev: &BlockDevice| dev.size.clone().unwrap_or("Unknown".to_string()),
         },
+        Column {
+            header: "Disk Type",
+            enabled: |args: &Args| args.disk_type,
+            extract: |dev: &BlockDevice| dev.disk_type.clone().unwrap_or("Unknown".to_string()),
+        },
     ]
 }
 

@@ -43,7 +43,7 @@ fn main() {
     };
 
     for item in devices {
-        if item.disk_type != "disk" {
+        if item.disk_type != Some("disk".to_string()) {
             continue;
         }
         let mut row = vec![format!("/dev/{}", item.name)];
